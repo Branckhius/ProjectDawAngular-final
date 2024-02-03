@@ -1,0 +1,48 @@
+<div>
+<ul>
+  <li (click)="onSelectType('Courses')">Courses</li>
+  <li (click)="onSelectType('Departments')">Departments</li>
+  <li (click)="onSelectType('ProfessorDetails')">ProfessorDetails</li>
+  <li (click)="onSelectType('Professors')">Professors</li>
+  <li (click)="onSelectType('StudentCourses')">StudentCourses</li>
+  <li (click)="onSelectType('Students')">Students</li>
+</ul>
+</div>
+
+<div *ngIf="selectedType">
+  <h2>{{ selectedType }}:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <!-- Utilizarea *ngFor pentru a itera prin proprietățile obiectului newData -->
+        <th *ngFor="let property of getProperties(data[0])">{{ property }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data; let i = index">
+        <td>{{ (i + 1).toString() | demo }}</td>
+        <td *ngFor="let property of getProperties(item)">{{ item[property] }}</td>
+        <td>
+          <button (click)="onDeleteData(selectedType, item.Id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <h3>Adaugă {{ selectedType }} nou:</h3>
+    <!-- Formular pentru adăugarea de date -->
+    <form (ngSubmit)="onAddData()">
+      <!-- Utilizarea *ngFor pentru a itera prin proprietățile obiectului newData -->
+      <div *ngFor="let property of getProperties(newData)">
+        <label>{{ property }}:</label>
+        <!-- Adăugarea unui input pentru fiecare proprietate a obiectului newData -->
+        <input [(ngModel)]="newData[property]" name="{{ property }}" placeholder="{{ property }}" />
+      </div>
+
+      <!-- Adaugă un buton de tip submit pentru a trimite formularul -->
+      <button type="submit">Adaugă</button>
+    </form>
+  </div>
+</div>
